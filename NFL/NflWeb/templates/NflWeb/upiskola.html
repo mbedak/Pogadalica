@@ -1,0 +1,77 @@
+{% extends "main/header1.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container">
+
+    <table class="table table-hover" style="width=20%;">
+        <thead class="thead-dark">
+        <th>Gosti</th>
+        <th>Domacini</th>
+        <th>Broj Kola</th>
+        <th>Rezultat Gosti</th>
+        <th>Rezultat Domaci</th>
+        <th>Datum</th>
+        </thead>
+        {% for utakmica in utakmice%}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <tr>
+                <td hidden="hidden"><input type="text" name="utakmica_id" value="{{utakmica.id_utakmica}}"></td>
+                <td>{{utakmica.gosti}}</td>
+                <td>{{utakmica.domacini}}</td>
+                <td>
+                    <select name="kolo_id" id="kolo">
+                        {% for kolo in kola%}
+                        {% if utakmica.kolo.broj_kola == kolo.broj_kola %}
+                        <option value="{{kolo.kolo_id}}" selected>{{kolo.broj_kola}}</option>
+                        {% else %}
+                        <option value="{{kolo.kolo_id}}">{{kolo.broj_kola}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Rezultat {{utakmica.gosti.kratica}}">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Rezultat {{utakmica.domacini.kratica}}">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" placeholder="YYYY/MM/DD hh/mm/ss"/>
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                </td>
+                <td>
+                    <button type="onclick=salji_na_server" class="w3-bar-item w3-button w3-green">
+                        <i class="fa fa-save" style="font-size:30px;color:blue"></i>
+                    </button>
+                    <script> function salji_na_server(){}
+                    </script>
+                </td>
+            </tr>
+
+
+        </form>
+        {% endfor %}
+    </table>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends "main/header1.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+Današnji datum: {{today}} <br>
+Početak kola: {{pocetak}} <br>
+Kraj kola: {{kraj}}
+
+{% if pocetak > today or kraj < today %}
+
+<form action="{% url 'okladi_se' %}" method="post">
+    {% csrf_token %}
+    <center>
+        <h1> Week {{broj_kola}}, Igrač: {{korisnik}}</h1>
+        <input type="hidden" value="{{korisnik}}" name="korisnik">
+        <input type="hidden" value="{{broj_kola}}" name="broj_kola">
+        <input type="number" value="{{broj_TD}}" name="broj_TD" size="2" placeholder="Koliko TD će biti?" required>
+    </center>
+    <div class="container-fluid">
+        {% for i in tekme %}
+        <table class="table">
+
+            {% for key, value in duplam.items %}
+            {% for klj, vrj in boja.items %}
+            {% if i == key %}
+            {% if i == klj %}
+
+            <thead class="thead">
+            <th style="text-align:left;color: {{vrj}}" colspan="3">
+                <strong> {{i.gosti}} @ {{i.domacini}} played on {{i.domacini.stadion}} </strong>
+            </th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Odaberi pobjednika
+                </td>
+                <td>
+                    <select id="pobjednik_{{i.id_utakmica}}" name="pobjednik_{{i.id_utakmica}}" style="width: 180px;"
+                            onchange="promjena({{i.domaci_spread}}, {{i.gosti_spread}}, {{i.id_utakmica}}, '{{i.domacini|cut:' '}}', '{{i.gosti|cut:' '}}');">
+                    <option disabled selected value style="display: none"> -- odaberi --</option>
+                    <option value="{{i.domacini.id_ekipa}}">{{i.domacini}}</option>
+                    <option value="{{i.gosti.id_ekipa}}">{{i.gosti}}</option>
+                    </select>
+                </td>
+                <td rowspan="4">
+                    {% load static %}
+                    <img id="{{i.id_utakmica}}" src="{% static 'images/logos/Odluka.jpg' %}" alt="Slika "
+                         style="width:300px;height:180px;">
+                <td>
+            <tr>
+                <td>
+                    Spread {{i.domacini.kratica}}
+                </td>
+                <td>
+                    {{i.domaci_spread}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Spread {{i.gosti.kratica}}
+                </td>
+                <td>
+                    {{i.gosti_spread}}
+                </td>
+            </tr>
+            <tr>
+                <td>Duplam:</td>
+                <td>
+                    {% if najmanji_spread_tekma == i %}
+                    <fieldset>
+                        <input type="radio" name="duplam_{{i.id_utakmica}}" value="DA" checked>DA
+                        <input type="radio" name="duplam_{{i.id_utakmica}}" value="NE" disabled>NE
+                    </fieldset>
+                    {% else %}
+                    <fieldset>
+                        <input type="radio" name="duplam_{{i.id_utakmica}}" value="DA" id="duplam_{{i.id_utakmica}}_da"
+                               onclick="duplam('{{vrj}}', 'duplam_{{i.id_utakmica}}_da');" class="boja_{{vrj}}">DA
+                        <input type="radio" name="duplam_{{i.id_utakmica}}" value="NE" id="duplam_{{i.id_utakmica}}_ne"
+                               checked onclick="duplam_ne('{{vrj}}', 'duplam_{{i.id_utakmica}}_ne');">NE
+                    </fieldset>
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+        {% endfor %}
+    </div>
+
+    <input type="submit" value="Submit">
+</form>
+
+<script type="text/javascript">
+
+var oznacena_zuta = false
+var oznacena_zuta_id = ''
+
+function promjena(domaci_spread, gosti_spread, id_tekma, domacini, gosti){
+    pick(domaci_spread, gosti_spread, id_tekma);
+    displayImage(id_tekma, domacini, gosti);
+}
+
+
+function pick(domaci_spread, gosti_spread, id_tekma){
+    if(Math.abs(domaci_spread) > 7){
+        var izabranik = document.getElementById("pobjednik_"+id_tekma).selectedIndex;
+        if (izabranik == 1 && domaci_spread > gosti_spread ||
+            izabranik == 2 && gosti_spread > domaci_spread){
+                document.getElementById("duplam_"+id_tekma+"_da").disabled = true;
+        }
+        else{
+            document.getElementById("duplam_"+id_tekma+"_da").disabled=false;
+        }
+    }
+}
+
+function duplam(vrijednost_boje, id_tekma){
+    if(vrijednost_boje == '#FFD700' && oznacena_zuta == false){
+        oznacena_zuta = true
+        oznacena_zuta_id = id_tekma
+        const coll = document.getElementsByClassName('boja_#FFD700');
+        for (var elem of coll){
+            console.log(elem.id)
+            if (elem.id != id_tekma)
+                elem.disabled = true
+        }
+    }
+}
+function duplam_ne(vrijednost_boje, id_tekma){
+    if(vrijednost_boje == '#FFD700' && oznacena_zuta == true){
+        const coll = document.getElementsByClassName('boja_#FFD700');
+        for (var elem of coll){
+            if (elem.id != id_tekma)
+                elem.disabled = false
+        }
+        oznacena_zuta = false
+    }
+}
+
+function displayImage(id_tekma, domaci, gosti){
+    var link = "{% static 'images/logos/' %}";
+    console.log(link)
+    var ekipa = ''
+    var image = document.getElementById(id_tekma);
+        select = document.getElementById("pobjednik_"+id_tekma).selectedIndex;
+            if(select==1){
+                var ekipa = domaci
+            }else{
+                var ekipa = gosti
+            }
+    console. log (ekipa)
+    console. log (image)
+    console.log (select)
+    image.src =link +ekipa+".png";
+    console.log(image.src);
+}
+
+
+
+</script>
+{% else %}
+<div><h2> TRENUTNO SE NIJE MOGUĆE OKLADITI NA OVO KOLO</h2></div>
+{% endif %}
+
+{% endblock %}

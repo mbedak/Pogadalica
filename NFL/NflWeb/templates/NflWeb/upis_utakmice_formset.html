@@ -1,0 +1,15 @@
+{% extends "main/header1.html" %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Ovo je prostor za uređivanje utakmica</h2>
+<div class="container-fluid" >
+<form method = "POST">
+  {% crispy formset helper %}
+</form>
+</div>
+
+
+
+{% endblock %}

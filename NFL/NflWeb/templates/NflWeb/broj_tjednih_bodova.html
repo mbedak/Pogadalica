@@ -1,0 +1,211 @@
+{% extends "main/header1.html" %}
+
+{% block content %}
+<style>
+    tr{
+    height: 1px;
+    }
+
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 table-responsive table-sm bg-success text-white">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        Stvarni rezultati
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Utakmica
+                    </th>
+                    <th>
+                        Pobjednik
+                    </th>
+                    <th>
+                        Spread
+                    </th>
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for tekma in prave_tekme %}
+                <tr>
+                    <td>
+                        {{tekma.gosti}} @ {{tekma.domacini}}
+                    </td>
+                    <td>
+                        {{tekma.pobjednik.kratica}}
+                    </td>
+                    <td>
+                        {{tekma.domaci_spread}}
+                    </td>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td colspan="3">
+                        Ukupno bodova od pogodaka
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Tko rano rani
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Prime Time Master
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Bodovi od duplanja
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Ukupni bodovi
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Freight train
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Stifler
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Tvornica tuge
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Utter disaster
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="col-md-6 table-responsive table-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    {% for korisnik in lista_korisnika %}
+                    <th style="text-align: left; vertical-align: middle;" colspan="2" >
+                        {{ korisnik }}
+                    </th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik in lista_korisnika %}
+                    <th >
+                        Ciljano
+                    </th>
+                    <th>
+
+                    </th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for key,tkm in dict_oklada_po_tekmi.items %}
+                <tr>
+                    {% for i in tkm %}
+                    <td width="10%">
+                        {{i.0.kratica}}
+                    </td>
+                    <td width="50">
+                        {% if i.1 == True %}
+                        X2
+                        {% else %}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                <tr/>
+                {% endfor %}
+                <tr>
+                    {% for kor,broj_bodova in korisnik_bodovi.items %}
+                    <td colspan="2">
+                        {{broj_bodova.0}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for kor,broj_bodova in korisnik_bodovi.items %}
+                    <td colspan="2">
+                        {{broj_bodova.1}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for kor,broj_bodova in korisnik_bodovi.items %}
+                    <td colspan="2">
+                        {{broj_bodova.2}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for kor,broj_bodova in korisnik_bodovi.items %}
+                    <td colspan="2">
+                        {{broj_bodova.3}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik ,ukupan_zbroj in korisnik_ukupno.items %}
+                    <td colspan="2">
+                        {{ukupan_zbroj}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik ,freight_train in freight_train.items %}
+                    <td colspan="2">
+                        {{freight_train}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik , stifler in stifler.items %}
+                    <td colspan="2">
+                        {{stifler}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik ,tvornica_tuge in tvornica_tuge.items %}
+                    <td colspan="2">
+                        {{tvornica_tuge}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for korisnik ,utter_disaster in utter_disaster.items %}
+                    <td colspan="2">
+                        {{utter_disaster}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

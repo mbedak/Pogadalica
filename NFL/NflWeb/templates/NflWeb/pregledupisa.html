@@ -1,0 +1,26 @@
+{% extends "main/header1.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    <h1> Week {{broj_kola}} </h1>
+        <table class="table" style="...">
+            <thead>
+            <th><h2>Domacini</h2></th>
+            <th><h2>Rezultat </h2></th>
+            <th><h2>Gosti</h2></th>
+            <th><h2>@Stadion</h2></th>
+            </thead>
+            {%for i in tekme %}
+            <tr>
+                <td>{{i.domacini}}</td>
+                <td>{{i.rez_doma}} - {{i.rez_gosti}}</td>
+                <td>{{i.gosti}}</td>
+                <td>{{i.domacini.stadion}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+
+{% endblock %}
