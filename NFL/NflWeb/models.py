@@ -88,17 +88,6 @@ class Igraci(models.Model):
         db_table = 'igraci'
 
 
-class PtsWeek(models.Model):
-    id_pts_week = models.IntegerField(primary_key=True)
-    korisnik = models.OneToOneField('AuthUser', models.DO_NOTHING, db_column='korisnik')
-    kolo = models.ForeignKey('Kolo', models.DO_NOTHING, blank=True, null=True)
-    broj_bodova = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'PTS_week'
-
-
 class OkladaKolo(models.Model):
     id_oklada_kolo = models.AutoField(primary_key=True)
     user = models.ForeignKey('AuthUser', models.DO_NOTHING, blank=True, null=True)
