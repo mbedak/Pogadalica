@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.utils import timezone
 
-from klase import racunanje_boja, tjedni_bodovi
+from .klase import racunanje_boja, tjedni_bodovi
 from .forms import NewUserForm
 from .models import Utakmice, Kolo, Ekipe, OkladaUtakmice, OkladaKolo
 

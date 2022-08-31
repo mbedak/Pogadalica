@@ -83,16 +83,16 @@ WSGI_APPLICATION = 'NFL.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'NFL',
-        'USER': 'mbedak',
-        'PASSWORD': '11111',
-        'HOST': 'NIKALAPTOP\SQLEXPRESS',
-        'PORT': '',
+        'USER': 'root',
+        'PASSWORD': 'martinnika',
+        'HOST': '127.0.0.1',
+        'PORT': '3307',
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    },
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
 }
 
 # Password validation
@@ -123,7 +123,7 @@ TIME_ZONE = 'CET'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
