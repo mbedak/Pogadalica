@@ -1,0 +1,9 @@
+Popis date time čelija
+NFL.utakmice.datum_vrijeme (smalldatetime) u Djangu je to sve datetime field
+NFL.auth_user.last_login (datetime2)
+NFL.auth_user.date_joined (datetime2)
+NFL.django_admin_log.action_time (datetime2)
+NFL.django_migrations.applied (datetime2)
+NFL.django_session.expire_date (datetime2)
+NFL.kolo.startdate (smalldatetime)
+NFL.kolo.enddate (smalldatetime)

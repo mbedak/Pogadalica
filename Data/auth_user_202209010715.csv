@@ -1,0 +1,4 @@
+"id","password","last_login","is_superuser","username","first_name","last_name","email","is_staff","is_active","date_joined"
+1,pbkdf2_sha256$390000$dJo6vAtOzTmzSKen8vsYPG$OIiYVFGkzJ/ycI8FB2Qs+EiyE17LqpWBaHvkdZibc8M=,2022-08-31 20:38:58.000,1,mbedak,Martin,Bedak,bedakmartin@gmail.com,1,1,2022-06-05 16:56:00.000
+2,pbkdf2_sha256$320000$McU8qOKSZuFVoJrDP1yyhK$mGsDbMMj7jjHddcvXgXdM1+XmRyyXofliTjKl/WNtVo=,2022-06-09 10:15:36.000,0,testerzser,"","","",0,1,2022-06-08 15:15:15.000
+3,pbkdf2_sha256$320000$KhCQHbSKcrTuRb412bxMKx$RIZyX/Ea5nNOnKctILMKpb1LHjCG9ZiNC6YCXMY2Tzk=,2022-08-14 21:36:25.000,0,fmusic,"","",fmusic@gmail.com,0,1,2022-07-23 18:39:33.000

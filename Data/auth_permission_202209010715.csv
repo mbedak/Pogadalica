@@ -1,0 +1,69 @@
+"id","name","content_type_id","codename"
+1,Can add log entry,1,add_logentry
+2,Can change log entry,1,change_logentry
+3,Can delete log entry,1,delete_logentry
+4,Can view log entry,1,view_logentry
+5,Can add permission,2,add_permission
+6,Can change permission,2,change_permission
+7,Can delete permission,2,delete_permission
+8,Can view permission,2,view_permission
+9,Can add group,3,add_group
+10,Can change group,3,change_group
+11,Can delete group,3,delete_group
+12,Can view group,3,view_group
+13,Can add user,4,add_user
+14,Can change user,4,change_user
+15,Can delete user,4,delete_user
+16,Can view user,4,view_user
+17,Can add content type,5,add_contenttype
+18,Can change content type,5,change_contenttype
+19,Can delete content type,5,delete_contenttype
+20,Can view content type,5,view_contenttype
+21,Can add session,6,add_session
+22,Can change session,6,change_session
+23,Can delete session,6,delete_session
+24,Can view session,6,view_session
+25,Can add utakmica,7,add_utakmica
+26,Can change utakmica,7,change_utakmica
+27,Can delete utakmica,7,delete_utakmica
+28,Can view utakmica,7,view_utakmica
+29,Can add auth user,12,add_authuser
+30,Can change auth user,12,change_authuser
+31,Can delete auth user,12,delete_authuser
+32,Can view auth user,12,view_authuser
+33,Can add ekipe,8,add_ekipe
+34,Can change ekipe,8,change_ekipe
+35,Can delete ekipe,8,delete_ekipe
+36,Can view ekipe,8,view_ekipe
+37,Can add igraci,11,add_igraci
+38,Can change igraci,11,change_igraci
+39,Can delete igraci,11,delete_igraci
+40,Can view igraci,11,view_igraci
+41,Can add kolo,10,add_kolo
+42,Can change kolo,10,change_kolo
+43,Can delete kolo,10,delete_kolo
+44,Can view kolo,10,view_kolo
+45,Can add oklada,13,add_oklada
+46,Can change oklada,13,change_oklada
+47,Can delete oklada,13,delete_oklada
+48,Can view oklada,13,view_oklada
+49,Can add utakmice,9,add_utakmice
+50,Can change utakmice,9,change_utakmice
+51,Can delete utakmice,9,delete_utakmice
+52,Can view utakmice,9,view_utakmice
+53,Can add oklada kolo,14,add_okladakolo
+54,Can change oklada kolo,14,change_okladakolo
+55,Can delete oklada kolo,14,delete_okladakolo
+56,Can view oklada kolo,14,view_okladakolo
+57,Can add oklada utakmice,15,add_okladautakmice
+58,Can change oklada utakmice,15,change_okladautakmice
+59,Can delete oklada utakmice,15,delete_okladautakmice
+60,Can view oklada utakmice,15,view_okladautakmice
+61,Can add site,16,add_site
+62,Can change site,16,change_site
+63,Can delete site,16,delete_site
+64,Can view site,16,view_site
+65,Can add pts week,17,add_ptsweek
+66,Can change pts week,17,change_ptsweek
+67,Can delete pts week,17,delete_ptsweek
+68,Can view pts week,17,view_ptsweek
