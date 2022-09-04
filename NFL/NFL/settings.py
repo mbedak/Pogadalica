@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'NFL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'NFL',
+        'NAME': 'nfl',
         'USER': 'admin',
         'PASSWORD': 'Fb4mPGJeJYn5UgF',
         'HOST': 'pogadalica-db.ccpsvtmz88yd.us-east-1.rds.amazonaws.com',
