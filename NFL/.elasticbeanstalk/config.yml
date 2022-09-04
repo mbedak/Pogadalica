@@ -1,11 +1,11 @@
 branch-defaults:
   default:
-    environment: nfl-pogadalica-env
+    environment: pogadalica-env
     group_suffix: null
 global:
-  application_name: nfl-pogadalica-env
+  application_name: pogadalica
   branch: null
-  default_ec2_keyname: aws-eb
+  default_ec2_keyname: null
   default_platform: Python 3.8
   default_region: us-west-2
   include_git_submodules: true

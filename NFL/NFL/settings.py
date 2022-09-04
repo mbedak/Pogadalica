@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-u5rdxp#t=y&w#^y(c+m(13e_vmcb@t#*cyq8n4kluo@!o++^s$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['pogadalica-env.eba-ihjqs9rj.us-west-2.elasticbeanstalk.com',
+                 'pogadalica.frane.link']
 
 
 # Application definition
@@ -85,10 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'NFL',
-        'USER': 'root',
-        'PASSWORD': 'martinnika',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
+        'USER': 'admin',
+        'PASSWORD': 'Fb4mPGJeJYn5UgF',
+        'HOST': 'pogadalica-db.ccpsvtmz88yd.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'connect_timeout': 2000
