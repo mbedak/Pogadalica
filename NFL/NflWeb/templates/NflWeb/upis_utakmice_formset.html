@@ -1,15 +1,42 @@
 {% extends "main/header1.html" %}
 
 {% block content %}
-{% load crispy_forms_tags %}
+
 
 <h2>Ovo je prostor za uređivanje utakmica</h2>
 <div class="container-fluid" >
-<form method = "POST">
-  {% crispy formset helper %}
-</form>
-</div>
-
-
-
+{% if objects %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+            {{ form.id }}
+            <div class="object-frame">
+                <div class="object">
+                    <p><span>Name: </span>{{ form.instance.name }}</p>
+                    {{ form.as_p }}
+                </div>
+            </div>
+        {% endfor %}
+        <input value="Save" type="submit">
+    </form>
+ 
+    <div class="pagination">
+        <span class="step-links">
+            {% if objects.has_previous %}
+                <a href="?page={{ objects.previous_page_number }}">Previous</a>
+            {% endif %}
+ 
+            <span class="current">
+                Page {{ objects.number }} of {{ objects.paginator.num_pages }}
+            </span>
+ 
+            {% if objects.has_next %}
+                <a href="?page={{ objects.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% else %}
+    <p>There are no objects.</p>
+{% endif %}
 {% endblock %}
