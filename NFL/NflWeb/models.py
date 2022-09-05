@@ -66,8 +66,8 @@ class Utakmice(models.Model):
 
     pobjednik = models.ForeignKey(Ekipe, models.DO_NOTHING, db_column='pobjednik', blank=True, null=True)
     datum_vrijeme = models.DateTimeField(blank=True, null=True)
-    gosti_spread = models.DecimalField(blank=True, null=True)
-    domaci_spread = models.DecimalField(blank=True, null=True)
+    gosti_spread = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
+    domaci_spread = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     rez_doma = models.IntegerField(blank=True, null=True)
     rez_gosti = models.IntegerField(blank=True, null=True)
 
