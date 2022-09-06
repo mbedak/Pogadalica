@@ -470,6 +470,12 @@ def ukupna_tablica(request):
 
 
 def broj_tjednih_bodova(request, BK):
+    today = timezone.now()
+    datum= Kolo.objects.filter(broj_kola=BK).first()
+    
+    pocetak_zabrane = datum.startdate-datetime.timedelta(days=3)
+    kraj_zabrane = datum.startdate
+    
     prave_tekme = Utakmice.objects.filter(kolo=BK)
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=BK)
     tekme_oklada = OkladaUtakmice.objects.filter(oklada_kolo__in=okladena_kola_po_broju_kola)
@@ -518,6 +524,9 @@ def broj_tjednih_bodova(request, BK):
         'lista_korisnika': lista_korisnika,
         'korisnik_bodovi': korisnik_bodovi,
         'korisnik_ukupno': korisnik_ukupno,
+        'pocetak_zabrane' : pocetak_zabrane,
+        'kraj_zabrane': kraj_zabrane,
+        'today' : today,
 
     }
     template = loader.get_template("NflWeb/broj_tjednih_bodova.html")
