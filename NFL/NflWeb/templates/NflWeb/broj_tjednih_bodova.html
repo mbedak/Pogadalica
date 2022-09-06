@@ -8,6 +8,11 @@
 
 </style>
 
+{% if pocetak_zabrane < today or kraj_zabrane > today %}
+
+<div><h2> Oklade su u tijeku, trenutno nije moguće vidjeti oklade drugih igrača</h2></div>
+    
+{% else %}    
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 table-responsive table-sm bg-success text-white">
@@ -208,4 +213,6 @@
         </div>
     </div>
 </div>
+
+{% endif %}
 {% endblock %}
