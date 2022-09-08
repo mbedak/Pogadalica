@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-u5rdxp#t=y&w#^y(c+m(13e_vmcb@t#*cyq8n4kluo@!o++^s$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pogadalica-env.eba-ihjqs9rj.us-west-2.elasticbeanstalk.com',
-                 'pogadalica.frane.link']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,7 +87,7 @@ DATABASES = {
         'NAME': 'nfl',
         'USER': 'admin',
         'PASSWORD': 'Fb4mPGJeJYn5UgF',
-        'HOST': 'pogadalica-db.ccpsvtmz88yd.us-east-1.rds.amazonaws.com',
+        'HOST': 'pogadalica-db.cnwaeg7yfw5l.us-west-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",

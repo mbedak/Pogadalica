@@ -7,11 +7,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms import ModelForm, DateInput
 from django.forms import modelformset_factory, DateTimeInput
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import loader
+from django.template import loader, RequestContext
 from django.utils import timezone
 
 from .klase import racunanje_boja, tjedni_bodovi
@@ -82,7 +83,7 @@ class UpisKola(ModelForm):
 
 
 def upis_utakmice_formset(request):
-    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme)
+    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme, extra=0)
     if request.method == "POST":
         formset = UpisTekmeSet(
             request.POST,
@@ -90,13 +91,24 @@ def upis_utakmice_formset(request):
         if formset.is_valid():
             formset.save()
             # Do something.
+        return HttpResponse('Utakmice promijenjene!')
     else:
-        formset = UpisTekmeSet()
-
+        query = Utakmice.objects.all()
+        paginator = Paginator(query, 16)  # Show 16 forms per page
+        page = request.GET.get('page')
+        try:
+            objects = paginator.page(page)
+        except PageNotAnInteger:
+            objects = paginator.page(1)
+        except EmptyPage:
+            objects = paginator.page(paginator.num_pages)
+    page_query = Utakmice.objects.filter(id_utakmica__in=[obje.id_utakmica for obje in objects])
+    formset = UpisTekmeSet(queryset=page_query)
     helper = UtakmiceFormSetHelper()
     helper.add_input(Submit("submit", "Save"))
     helper.template = 'bootstrap4/table_inline_formset.html'
-    return render(request, 'NflWeb/upis_utakmice_formset.html', {'formset': formset, 'helper': helper})
+    context = {'objects': objects, 'formset': formset, 'helper': helper}
+    return render(request,'NflWeb/upis_utakmice_formset.html', context)
 
 
 def upis_kola_formset(request):
