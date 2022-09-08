@@ -214,7 +214,7 @@ def okladi_se(request):
     # broj_kola = request.POST['broj_kola']
     # print(request.POST)
     svi_iz_forme = request.POST
-    print(svi_iz_forme)
+
     # novi =  korisnik
     user_id = request.user.id
     user = request.user
@@ -291,7 +291,7 @@ def logout_request(request):
 def ukupna_tablica(request):
     sva_kola = [i for i in range(1, 19)]
     kola = Kolo.objects.all()
-    kolo = kola[2].broj_kola
+    kolo = kola[0].broj_kola
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=kolo)
     lista_korisnika = [okladeno_kolo.user for okladeno_kolo in okladena_kola_po_broju_kola]
     korisnik_bodovi = {}
@@ -366,7 +366,10 @@ def ukupna_tablica(request):
 
     korisnici_po_tjednu = {}
     krajnjalista = []
-    zadnji_index = len(list(lista_korisnika_sa_tjednim_bodovima.values())[0])
+    lista_values = lista_korisnika_sa_tjednim_bodovima.values()
+    lista_lista_values = list(lista_values)
+    nulti = lista_lista_values[0]
+    zadnji_index = len(nulti)
 
     for i in range(zadnji_index):
         for k, v in lista_korisnika_sa_tjednim_bodovima.items():
@@ -471,11 +474,13 @@ def ukupna_tablica(request):
 
 def broj_tjednih_bodova(request, BK):
     today = timezone.now()
-    datum= Kolo.objects.filter(broj_kola=BK).first()
-    
-    pocetak_zabrane = datum.startdate-datetime.timedelta(days=3)
+    datum = Kolo.objects.filter(broj_kola=BK).first()
+
+    pocetak_zabrane = datum.startdate - datetime.timedelta(days=3)
     kraj_zabrane = datum.startdate
-    
+    if today < kraj_zabrane:
+        messages.info(request, "Nije moguće vidjeti oklade dok traje klađenje")
+        return redirect("home")
     prave_tekme = Utakmice.objects.filter(kolo=BK)
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=BK)
     tekme_oklada = OkladaUtakmice.objects.filter(oklada_kolo__in=okladena_kola_po_broju_kola)
@@ -524,9 +529,9 @@ def broj_tjednih_bodova(request, BK):
         'lista_korisnika': lista_korisnika,
         'korisnik_bodovi': korisnik_bodovi,
         'korisnik_ukupno': korisnik_ukupno,
-        'pocetak_zabrane' : pocetak_zabrane,
+        'pocetak_zabrane': pocetak_zabrane,
         'kraj_zabrane': kraj_zabrane,
-        'today' : today,
+        'today': today,
 
     }
     template = loader.get_template("NflWeb/broj_tjednih_bodova.html")

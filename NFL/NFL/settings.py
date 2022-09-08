@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'NFL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'NFL',
-        'USER': 'root',
-        'PASSWORD': 'martinnika',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
+        'NAME': 'nfl',
+        'USER': 'admin',
+        'PASSWORD': 'Fb4mPGJeJYn5UgF',
+        'HOST': 'pogadalica-db.cnwaeg7yfw5l.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'connect_timeout': 2000
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'CET'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

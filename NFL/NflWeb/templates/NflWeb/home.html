@@ -8,21 +8,22 @@
 <div class="container-fluid text-center">
     <div class="row content">
         <div class="col-sm-3">
-            <div class="card" style="width: 20rem;">
+            <div class="card m-2" style="width: 20rem;">
                 <div class="card-body">
                     <h5 class="card-title">Upute</h5>
                     <p class="card-text">Upute je pripremio vrijedni kolega Šimun!</p>
                     <a href="{% static  'docs/Rulebook.pdf' %}">Upute</a>
                 </div>
             </div>
-            <div class="card" style="width: 20rem;">
+            <div class="card m-2" style="width: 20rem;">
                 <div class="card-body">
                     <h5 class="card-title">Tablica</h5>
                     <p class="card-text">Ovo je glavna tablica bodova</p>
                     <a href="/NflWeb/tablicabodova">Tablica bodova</a>
                 </div>
             </div>
-            <div class="card" style="width: 20rem;">
+            <div class="card m-2" style="width: 20rem;">
+                <div class="card-body">
                 <h5 class="card-title">Upis utakmica</h5>
                 <p class="card-text">Ovdje administratori mogu mjenjati utakmice</p>
                 {% if user.is_superuser %}
@@ -30,8 +31,10 @@
                 {% else %}
                 <p>Nisi administrator</p>
                 {% endif %}
+                </div>
             </div>
-            <div class="card" style="width: 20rem;">
+            <div class="card m-2" style="width: 20rem;">
+                <div class="card-body">
                 <h5 class="card-title">Upis kola</h5>
                 <p class="card-text">Ovdje administratori mogu mjenjati kola</p>
                 {% if user.is_superuser %}
@@ -39,6 +42,7 @@
                 {% else %}
                 <p>Nisi administrator</p>
                 {% endif %}
+                </div>
             </div>
         </div>
         <div class="col-sm-4 text-left">

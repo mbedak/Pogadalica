@@ -3,6 +3,7 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
+
 <b>Današnji datum je</b> {{today}}
 <div class="container">
     {% if user.is_authenticated %}
@@ -12,9 +13,9 @@
         <thead>
         <th><h1>Week</h1></th>
         </thead>
-        {%for kolo in sva_kola %}
+        {% for kolo in sva_kola %}
         <tr>
-            <td><a href="/NflWeb/broj_tjednih_bodova{{kolo.broj_kola}}">{{kolo.broj_kola}} </td>
+            <td><a href="/NflWeb/broj_tjednih_bodova{{kolo.broj_kola}}">{{kolo.broj_kola}}</td>
         </tr>
         {% endfor %}
         {% else %}
