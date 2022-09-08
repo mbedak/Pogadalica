@@ -82,7 +82,7 @@ class UpisKola(ModelForm):
 
 
 def upis_utakmice_formset(request):
-    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme, extra=0)
+    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme)
     if request.method == "POST":
         formset = UpisTekmeSet(
             request.POST,
@@ -90,27 +90,13 @@ def upis_utakmice_formset(request):
         if formset.is_valid():
             formset.save()
             # Do something.
-        return HttpResponse('Utakmice promijenjene!')
     else:
         formset = UpisTekmeSet()
-        query = Utakmice.objects.all() 
-        paginator = Paginator(query, 16)  # Show 16 forms per page  
-        page = request.GET.get('page')  
-     try:  
-        objects = paginator.page(page)  
-     except PageNotAnInteger:  
-        objects = paginator.page(1)  
-     except EmptyPage:  
-        objects = paginator.page(paginator.num_pages)  
-    page_query = Utakmice.objects.filter(id__in=[object.id for object in objects])  
-    formset = UpisTekmeSet(queryset=page_query)  
-    context = {'objects': objects, 'formset': formset, 'helper': helper}
+
     helper = UtakmiceFormSetHelper()
     helper.add_input(Submit("submit", "Save"))
     helper.template = 'bootstrap4/table_inline_formset.html'
-    return render_to_response('NflWeb/upis_utakmice_formset.html', context,  
-                              context_instance=RequestContext(request))
-
+    return render(request, 'NflWeb/upis_utakmice_formset.html', {'formset': formset, 'helper': helper})
 
 
 def upis_kola_formset(request):
