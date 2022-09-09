@@ -78,7 +78,7 @@ class tjedni_bodovi:
 
         for i in self.solo_tekme_user:  # ako su ekipe iz liste pobjednici  dodaj 0.1
             if i in self.prave:
-                self.tie1 += 0.1
+                self.tie1 += 0.01
 
         for okl_utakmica in okladene_utakmice:
             for tekma in utakmice:
@@ -98,7 +98,7 @@ class tjedni_bodovi:
                             if okl_utakmica.dvostruko:
                                 self.DP += 1
                                 if abs(tekma.domaci_spread) <= 3:
-                                    self.tie3 += 0.001
+                                    self.tie3 += 0.0001
                                 if abs(tekma.domaci_spread) > 7:
                                     self.stifler += 1
                         elif tekma.pobjednik != okl_utakmica.pobjednik_utakmica:
