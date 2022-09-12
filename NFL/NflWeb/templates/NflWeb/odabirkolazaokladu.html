@@ -3,32 +3,54 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
-<b>Današnji datum je</b> {{today}}
 <div class="container">
     {% if user.is_authenticated %}
-    <h2> Dobrodošao {{user}} </h2>
-    <h1> Odaberi tjedan </h1>
-    <table class="table" style="...">
-        <thead>
-        <th><h1>Week</h1></th>
-        </thead>
-        {%for kolo in sva_kola %}
-        <tr>
-            <td><a href="/NflWeb/oklada{{kolo.broj_kola}}">{{kolo.broj_kola}} </td>
-        </tr>
-        {% endfor %}
-        {% else %}
-        <div class="container py-5">
-            <h1>Register</h1>
-            <form method="POST">
-                {% csrf_token %}
-                {{ register_form|crispy }}
-                <button class="btn btn-primary" type="submit">Register</button>
-            </form>
-            <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
-        </div>
-        {% endif %}
+    <div class="d-flex flex-column">
+        <label for="week-select" class="m-2" style="font-size: 20px;">Odaberi tjedan</label>
+        <select id="week-select" class="form-control-sm custom-select mb-3 w-25" name="week-select">
+            <option selected disabled></option>
+            {%for kolo in sva_kola %}
+            <option>Week {{kolo.broj_kola}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="prikaz_kola">
+    </div>
+    {% else %}
+    <div class="container py-5">
+        <h1>Register</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ register_form|crispy }}
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+        <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+    </div>
+    {% endif %}
     </table>
 </div>
+
+{% block javascript %}
+<script>
+    $("#week-select").change(function () {
+        const picked_week = $(this).val().split(" ")[1];
+        console.log(picked_week)
+        $.ajax({
+            type: "GET",
+            url: '/NflWeb/oklada'+picked_week,
+            data: {
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                console.log(data)
+                $('#prikaz_kola').empty().html(data)
+            }
+        });
+    });
+
+
+</script>
+{% endblock javascript %}
 
 {% endblock %}

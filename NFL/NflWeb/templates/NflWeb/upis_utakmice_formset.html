@@ -5,11 +5,29 @@
 
 <h2>Ovo je prostor za uređivanje utakmica</h2>
 <div class="container-fluid" >
-<form method = "POST">
-  {% crispy formset helper %}
-</form>
+{% if objects %}
+    <form  method="post">
+        {% crispy formset helper %}
+
+    </form>
+ 
+    <div class="pagination">
+        <span class="step-links">
+            {% if objects.has_previous %}
+                <a href="?page={{ objects.previous_page_number }}">Previous</a>
+            {% endif %}
+ 
+            <span class="current">
+                Page {{ objects.number }} of {{ objects.paginator.num_pages }}
+            </span>
+ 
+            {% if objects.has_next %}
+                <a href="?page={{ objects.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% else %}
+    <p>There are no objects.</p>
+{% endif %}
 </div>
-
-
-
 {% endblock %}

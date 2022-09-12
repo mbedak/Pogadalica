@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel = "stylesheet" href = "https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <script src = " https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src = "https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
-    <script src = "https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+    <script src=" https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
     <title>NFLPogađalica</title>
     <meta charset="utf-8">
@@ -19,63 +19,67 @@
 </head>
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <img src="{% static 'images/mbdesign.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-     <a class="navbar-brand" href="/NflWeb/home">NFL Pogađalica</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/NflWeb/odabirkolazaokladu">Pogađalica <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/NflWeb/odabirkola">Pregled kola</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/NflWeb/odabirkolazapregled">Pregled oklada</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Korisne stranice
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item"  href="https://www.NFL.com" target="_blank">NFL</a>
-          <a class="dropdown-item" href="https://global.espn.com/nfl/" target="_blank">ESPN</a>
-          <a class="dropdown-item" href=https://www.pff.com/" target="_blank">PFF</a>
-        </div>
-      </li>
-    </ul>
-      <ul class="navbar-nav navbar-right">
-                {% if user.is_authenticated %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome, {{user.username}}</a>
-                </li>
+<nav class="navbar navbar-expand-lg" style="background: #013369;">
 
-                {% else %}
+    <a class="navbar-brand text-white" href="/NflWeb/home">NFL Pogađalica</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link text-white" href="/NflWeb/odabirkolazaokladu">Pogađalica <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/NflWeb/odabirkola">Pregled kola</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/NflWeb/odabirkolazapregled">Pregled oklada</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Korisne stranice
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item " style="color: #013369;" href="https://www.NFL.com" target="_blank">NFL</a>
+                    <a class="dropdown-item " style="color: #013369;" href="https://global.espn.com/nfl/"
+                       target="_blank">ESPN</a>
+                    <a class="dropdown-item " style="color: #013369;" href=https://www.pff.com/" target="_blank">PFF</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            {% if user.is_authenticated %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Registriraj se</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/logout">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">Welcome, {{user.username}}</a>
+            </li>
 
-                {% endif %}
+            {% else %}
 
-            </ul>
-  </div>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/register">Registriraj se</a>
+            </li>
+
+            {% endif %}
+
+        </ul>
+    </div>
 </nav>
 
 {% if messages %}
 <div class="alert alert-danger" role="alert">
     {% for message in messages %}
-    <p {% if message.tags %} class="{{ message.tags }} "{% endif %} ><strong>{{ message }}</strong></p>
+    <p {% if message.tags %} class="{{ message.tags }} " {% endif %}><strong>{{ message }}</strong></p>
     {% endfor %}
 </div>
 {% endif %}

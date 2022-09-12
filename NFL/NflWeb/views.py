@@ -7,11 +7,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms import ModelForm, DateInput
 from django.forms import modelformset_factory, DateTimeInput
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import loader
+from django.template import loader, RequestContext
 from django.utils import timezone
 
 from .klase import racunanje_boja, tjedni_bodovi
@@ -82,7 +83,7 @@ class UpisKola(ModelForm):
 
 
 def upis_utakmice_formset(request):
-    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme)
+    UpisTekmeSet = modelformset_factory(Utakmice, form=UpisTekme, extra=0)
     if request.method == "POST":
         formset = UpisTekmeSet(
             request.POST,
@@ -90,13 +91,24 @@ def upis_utakmice_formset(request):
         if formset.is_valid():
             formset.save()
             # Do something.
+        return HttpResponse('Utakmice promijenjene!')
     else:
-        formset = UpisTekmeSet()
-
+        query = Utakmice.objects.all()
+        paginator = Paginator(query, 16)  # Show 16 forms per page
+        page = request.GET.get('page')
+        try:
+            objects = paginator.page(page)
+        except PageNotAnInteger:
+            objects = paginator.page(1)
+        except EmptyPage:
+            objects = paginator.page(paginator.num_pages)
+    page_query = Utakmice.objects.filter(id_utakmica__in=[obje.id_utakmica for obje in objects])
+    formset = UpisTekmeSet(queryset=page_query)
     helper = UtakmiceFormSetHelper()
     helper.add_input(Submit("submit", "Save"))
     helper.template = 'bootstrap4/table_inline_formset.html'
-    return render(request, 'NflWeb/upis_utakmice_formset.html', {'formset': formset, 'helper': helper})
+    context = {'objects': objects, 'formset': formset, 'helper': helper}
+    return render(request, 'NflWeb/upis_utakmice_formset.html', context)
 
 
 def upis_kola_formset(request):
@@ -176,8 +188,7 @@ def oklada(request, BK):
     template = loader.get_template('NflWeb/oklada.html')
 
     if OkladaKolo.objects.filter(user_id=request.user.id, broj_kola=BK).exists():
-        messages.error(request, "Vi ste vec upisali okladu za ovo kolo")
-        return redirect('home')
+        return HttpResponse("<h3 style='color: red;'>Vi ste već upisali okladu za ovo kolo</h3>")
     else:
         dict_tekmi = {}
         dict_boji = {}
@@ -324,11 +335,11 @@ def ukupna_tablica(request):
             else:
                 kolo_korisnik = OkladaKolo.objects.filter(user=korisnik, broj_kola=kolo.broj_kola).get()
                 utakmica_korisnik = OkladaUtakmice.objects.filter(oklada_kolo=kolo_korisnik)
-                tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, sve_tekme_oklada)
-                ukupan_zbroj = 0
-                broj_bodova = 0
                 pravi_td = kolo.broj_td
                 okladeni_td = kolo_korisnik.broj_td
+                tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, sve_tekme_oklada, )
+                ukupan_zbroj = 0
+                broj_bodova = 0
 
                 if pravi_td == okladeni_td:
                     nostradamus_bodovi += 15
@@ -341,8 +352,8 @@ def ukupna_tablica(request):
                 if tj_bodovi.tvornica_tuge:
                     ukupan_zbroj = 0
                 elif tj_bodovi.utter_disaster:
-                    ukupan_zbroj -= 15
-                    utter_bodovi -= 15
+                    ukupan_zbroj = 0
+                    utter_bodovi += -15
                 else:
                     broj_bodova = (
                         tj_bodovi.zbroji_bodove(), tj_bodovi.tko_rano_rani, tj_bodovi.prime_time_flag, tj_bodovi.DP)
@@ -375,7 +386,8 @@ def ukupna_tablica(request):
         for k, v in lista_korisnika_sa_tjednim_bodovima.items():
             vrijednost_bodova_u_kolu = v[i]
             korisnici_po_tjednu[k] = vrijednost_bodova_u_kolu
-            sorted_korisnici_po_tjednu = list(sorted(korisnici_po_tjednu.items(), key=lambda item: item[1], reverse=True))
+            sorted_korisnici_po_tjednu = list(
+                sorted(korisnici_po_tjednu.items(), key=lambda item: item[1], reverse=True))
         krajnjalista.append(sorted_korisnici_po_tjednu)
         korisnici_po_tjednu = {}
         sorted_korisnici_po_tjednu = []
@@ -433,31 +445,36 @@ def ukupna_tablica(request):
                 else:
                     nesto[9] = (nesto[9][0], 1)
             else:
-                for i in range(11,100):
-                    if not len(nesto) < i :
+                for i in range(10, 15):
+                    if not len(nesto) < i:
                         nesto[i] = (nesto[i][0], 0)
 
     nova_lista = []
     for el in krajnjalista:
         sorted_by_abcd = sorted(el, key=lambda tup: tup[0])
         nova_lista.append(sorted_by_abcd)
-    lista_kor = []
-    for korisnik in lista_korisnika:
-        lista_kor.append(korisnik.username)
-    lista_kor = sorted(lista_kor)
+    lista_kor = sorted([korisnik.username for korisnik in lista_korisnika])
 
     st = nova_lista
     d = {x[0][0]: sum(list(zip(*x))[1]) for x in zip(*st)}
 
-    stf= dict(lista_korisnika_stifler_sorted)
+    stf = dict(lista_korisnika_stifler_sorted)
     frt = dict(lista_korisnika_freight_sorted)
     utt = dict(lista_korisnika_utter_sorted)
     nos = dict(lista_korisnika_nostradamus_sorted)
+    c_stf = Counter(stf)
+    c_frt = Counter(frt)
+    c_utt = Counter(utt)
+    c_nos = Counter(nos)
+    c_stf.update(c_frt)
+    c_stf.update(c_utt)
+    c_stf.update(c_nos)
 
-    nagrade = dict(Counter(stf)+Counter(frt)+Counter(utt)+Counter(nos))
-    ukupno_za_tablicu = dict(Counter(nagrade)+Counter(d))
-
-
+    c_d = Counter(d)
+    c_stf.update(c_d)
+    uzt =Counter(c_stf)
+    ukupno_za_tablicu = dict(uzt)
+    print(ukupno_za_tablicu)
     context = {'sva_kola': sva_kola,
                'lista_bodova': nova_lista,
                'lista_korisnika': lista_kor,
@@ -475,12 +492,10 @@ def ukupna_tablica(request):
 def broj_tjednih_bodova(request, BK):
     today = timezone.now()
     datum = Kolo.objects.filter(broj_kola=BK).first()
-
     pocetak_zabrane = datum.startdate - datetime.timedelta(days=3)
     kraj_zabrane = datum.startdate
     if today < kraj_zabrane:
-        messages.info(request, "Nije moguće vidjeti oklade dok traje klađenje")
-        return redirect("home")
+        return HttpResponse("<h3 style='color:red; padding-left: 30px;'>Nije moguće vidjeti oklade dok traje klađenje")
     prave_tekme = Utakmice.objects.filter(kolo=BK)
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=BK)
     tekme_oklada = OkladaUtakmice.objects.filter(oklada_kolo__in=okladena_kola_po_broju_kola)
@@ -502,8 +517,9 @@ def broj_tjednih_bodova(request, BK):
     utter_disaster_ukupno = {}
     for korisnik in lista_korisnika:
         kolo_korisnik = OkladaKolo.objects.filter(user=korisnik, broj_kola=BK).all()
+
         utakmica_korisnik = OkladaUtakmice.objects.filter(oklada_kolo__in=kolo_korisnik)
-        tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, tekme_oklada)
+        tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, tekme_oklada, )
         broj_bodova = (tj_bodovi.zbroji_bodove(), tj_bodovi.tko_rano_rani, tj_bodovi.prime_time_flag, tj_bodovi.DP)
         ukupan_zbroj = tj_bodovi.zbroj_bodova_flt
         freight_train = tj_bodovi.freight_train

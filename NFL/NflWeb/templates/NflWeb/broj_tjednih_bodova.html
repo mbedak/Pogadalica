@@ -1,19 +1,16 @@
-{% extends "main/header1.html" %}
-
 {% block content %}
 <style>
     tr{
     height: 1px;
     }
 
+
+
 </style>
-
-
-
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 table-responsive table-sm bg-success text-white">
+        <div class="col-6 table-responsive table-sm  text-white" style="background: lightblue">
             <table class="table">
                 <thead>
                 <tr>
@@ -36,9 +33,13 @@
                 </thead>
                 <tbody>
                 {% for tekma in prave_tekme %}
+                {% load static %}
                 <tr>
                     <td>
-                        {{tekma.gosti}} @ {{tekma.domacini}}
+                        {{tekma.gosti}} <img src="{% static 'images/logostrans/' %}{{tekma.gosti.kratica.strip}}.png"
+                                             style="width:20px; height:20px;"> @ <img
+                            src="{% static 'images/logostrans/' %}{{tekma.domacini.kratica.strip}}.png"
+                            style="width:20px; height:20px;"> {{tekma.domacini}}
                     </td>
                     <td>
                         {{tekma.pobjednik.kratica}}
@@ -106,19 +107,19 @@
 
             </table>
         </div>
-        <div class="col-md-6 table-responsive table-sm">
+        <div class="col-6 table-responsive table-sm">
             <table class="table">
                 <thead>
                 <tr>
                     {% for korisnik in lista_korisnika %}
-                    <th style="text-align: left; vertical-align: middle;" colspan="2" >
+                    <th style="text-align: left; vertical-align: middle;" colspan="2">
                         {{ korisnik }}
                     </th>
                     {% endfor %}
                 </tr>
                 <tr>
                     {% for korisnik in lista_korisnika %}
-                    <th >
+                    <th>
                         Ciljano
                     </th>
                     <th>
