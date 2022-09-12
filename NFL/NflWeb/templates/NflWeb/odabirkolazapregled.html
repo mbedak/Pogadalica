@@ -4,20 +4,21 @@
 
 {% load crispy_forms_tags %}
 
-<b>Današnji datum je</b> {{today}}
-<div class="container">
+
+<!--<div class="container">-->
     {% if user.is_authenticated %}
-    <h2> Dobrodošao {{user}} </h2>
-    <h1> Odaberi tjedan </h1>
-    <table class="table" style="...">
-        <thead>
-        <th><h1>Week</h1></th>
-        </thead>
-        {% for kolo in sva_kola %}
-        <tr>
-            <td><a href="/NflWeb/broj_tjednih_bodova{{kolo.broj_kola}}">{{kolo.broj_kola}}</td>
-        </tr>
-        {% endfor %}
+    <div class="d-flex flex-column pl-5">
+        <label for="week-select" class="m-2" style="font-size: 20px;">Odaberi tjedan</label>
+        <select id="week-select" class="form-control-sm custom-select mb-3 w-25" name="week-select">
+            <option selected disabled></option>
+            {%for kolo in sva_kola %}
+            <option>Week {{kolo.broj_kola}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="prikaz_kola">
+    </div>
         {% else %}
         <div class="container py-5">
             <h1>Register</h1>
@@ -30,6 +31,28 @@
         </div>
         {% endif %}
     </table>
-</div>
+<!--</div>-->
+
+{% block javascript %}
+<script>
+    $("#week-select").change(function () {
+        const picked_week = $(this).val().split(" ")[1];
+        console.log(picked_week)
+        $.ajax({
+            type: "GET",
+            url: '/NflWeb/broj_tjednih_bodova'+picked_week,
+            data: {
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                console.log(data)
+                $('#prikaz_kola').empty().html(data)
+            }
+        });
+    });
+
+
+</script>
+{% endblock javascript %}
 
 {% endblock %}

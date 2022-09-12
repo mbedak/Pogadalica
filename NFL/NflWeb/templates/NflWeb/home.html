@@ -5,47 +5,47 @@
 {% load static %}
 
 
-<div class="container-fluid text-center">
+<div class="container-fluid text-center mt-2">
     <div class="row content">
         <div class="col-sm-3">
-            <div class="card m-2" style="width: 20rem;">
+            <div class="card m-2 text-white" style="width: 20rem; background: #013369;">
                 <div class="card-body">
                     <h5 class="card-title">Upute</h5>
                     <p class="card-text">Upute je pripremio vrijedni kolega Šimun!</p>
-                    <a href="{% static  'docs/Rulebook.pdf' %}">Upute</a>
+                    <a class="text-white" href="{% static  'docs/Rulebook.pdf' %}"><u>Upute</u></a>
                 </div>
             </div>
-            <div class="card m-2" style="width: 20rem;">
+            <div class="card m-2 text-white" style="width: 20rem; background: #013369;">
                 <div class="card-body">
                     <h5 class="card-title">Tablica</h5>
                     <p class="card-text">Ovo je glavna tablica bodova</p>
-                    <a href="/NflWeb/tablicabodova">Tablica bodova</a>
+                    <a class="text-white" href="/NflWeb/tablicabodova"><u>Tablica bodova</u></a>
                 </div>
             </div>
-            <div class="card m-2" style="width: 20rem;">
+            <div class="card m-2 text-white" style="width: 20rem; background: #013369;">
                 <div class="card-body">
-                <h5 class="card-title">Upis utakmica</h5>
-                <p class="card-text">Ovdje administratori mogu mjenjati utakmice</p>
-                {% if user.is_superuser %}
-                <a href="/NflWeb/upis_utakmice_formset">Upis utakmica</a>
-                {% else %}
-                <p>Nisi administrator</p>
-                {% endif %}
+                    <h5 class="card-title">Upis utakmica</h5>
+                    <p class="card-text">Ovdje administratori mogu mjenjati utakmice</p>
+                    {% if user.is_superuser %}
+                    <a class="text-white" href="/NflWeb/upis_utakmice_formset"><u>Upis utakmica</u></a>
+                    {% else %}
+                    <p>Nisi administrator</p>
+                    {% endif %}
                 </div>
             </div>
-            <div class="card m-2" style="width: 20rem;">
+            <div class="card m-2 text-white" style="width: 20rem; background: #013369;">
                 <div class="card-body">
-                <h5 class="card-title">Upis kola</h5>
-                <p class="card-text">Ovdje administratori mogu mjenjati kola</p>
-                {% if user.is_superuser %}
-                <a href="/NflWeb/upis_kola_formset">Upis kola</a>
-                {% else %}
-                <p>Nisi administrator</p>
-                {% endif %}
+                    <h5 class="card-title">Upis kola</h5>
+                    <p class="card-text">Ovdje administratori mogu mjenjati kola</p>
+                    {% if user.is_superuser %}
+                    <a class="text-white" href="/NflWeb/upis_kola_formset"><u>Upis kola</u></a>
+                    {% else %}
+                    <p>Nisi administrator</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
-        <div class="col-sm-4 text-left">
+        <div class="col-sm-5 text-left">
             <h1>Dobrodošli</h1>
             <p>Ovo je početna stranica ovogodišnje NFL pogađalice, sva pravila možete vidjeti na linku desno,
                 a iznad se nalaze linkovi na samu pogađalicu! Uživajte!</p>
@@ -57,24 +57,16 @@
             <p>Frani Mušiću bez kojega ovoga projekta ne bi bilo</p>
         </div>
         <div class="col-sm-4 text-left">
-            <br>
-            <br>
+            <div class="m-2">
+                <iframe width="450" height="315" src="https://www.youtube.com/embed/F_JF8oSxXtM"
+                        title="Ja nisam kockar, ali gubim" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="m-2 mt-3">
+                <iframe width="450" height="200" scrolling="no" frameborder="no" allow="autoplay"
+                        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/144231617&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
-            <iframe width="400" height="315" src="https://www.youtube.com/embed/D-UCImmriV0"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-
-            </iframe>
-            <br>
-            <br>
-            <iframe width="400" height="200" scrolling="no" frameborder="no" allow="autoplay"
-                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/144231617&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-            <div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
-                <a href="https://soundcloud.com/yaaqq1" title="yaaqq1" target="_blank"
-                   style="color: #cccccc; text-decoration: none;">yaaqq1</a> · <a
-                    href="https://soundcloud.com/yaaqq1/nfl-theme-original" title="NFL on FOX theme (original)"
-                    target="_blank" style="color: #cccccc; text-decoration: none;">NFL on FOX theme (original)</a>
             </div>
 
         </div>

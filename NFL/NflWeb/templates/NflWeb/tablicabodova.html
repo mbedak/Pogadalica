@@ -20,18 +20,19 @@
 }
 
 </style>
-<div class="container">
-    <p><a href="#" id="transposeButton"><strong>Bolji prikaz tablice.</strong></a></p>
-</div>
+<!--<div class="container">-->
+<!--    <p><a href="#" id="transposeButton"><strong>Bolji prikaz tablice.</strong></a></p>-->
+<!--</div>-->
 
-<div class="container" onload="transposeMe()">
-    <table id="transposeThis" class="table table-striped table-bordered table-sm" cellspacing="0"
+
+<div class="pt-5 px-3 table-responsive" onload="transposeMe();">
+    <table id="transposeThis" class="table table-striped table-bordered table-sm text-center" cellspacing="0"
            width="100%">
         <thead>
         <tr>
-            <th class="th-sm"> Week</th>
+            <th class="th"> Week<br/>-------<br/>User</th>
             {% for k in lista_korisnika %}
-            <th class="th-sm">
+            <th class="th text-left">
                 {{k}}
             </th>
             {% endfor %}
@@ -39,7 +40,7 @@
         </thead>
         {% for k in lista_bodova %}
         <tr>
-            <td width="5%"><strong>{{ forloop.counter }}</strong></td>
+            <td width="2%"><strong>{{ forloop.counter }}</strong></td>
             {% for j in k %}
             <td>{{ j.1 }}</td>
             {% endfor %}
@@ -47,7 +48,7 @@
 
         {% endfor %}
         <tr>
-            <td><strong> Ukupni bodovi bez nagrada</strong></td>
+            <td width="10%" class="text-center"><strong> Ukupni bodovi bez nagrada</strong></td>
             {% for k,v in ukupno.items %}
             <td> {{v}}</td>
             {% endfor %}
@@ -59,13 +60,13 @@
             {% endfor %}
         </tr>
         <tr>
-            <td><strong> Freight train comin'</strong></td>
+            <td width="7%" class="text-center"><strong> Freight train comin'</strong></td>
             {% for k in train %}
             <td> {{k.1}}</td>
             {% endfor %}
         </tr>
         <tr>
-            <td><strong> Utter disaster</strong></td>
+            <td class="text-center"><strong> Utter disaster</strong></td>
             {% for k in utter %}
             <td> {{k.1}}</td>
             {% endfor %}
@@ -100,51 +101,28 @@
 
 <script>
 
-function transposeMe(){
-        $("table").each(function() {
-        var $this = $(this);
-        var newrows = [];
-        $this.find("tr").each(function(rowToColIndex){
-            $(this).find("td, th").each(function(colToRowIndex){
-                if(newrows[colToRowIndex] === undefined) { newrows[colToRowIndex] = $("<tr></tr>"); }
-                while(newrows[colToRowIndex].find("td, th").length < rowToColIndex){
-                    newrows[colToRowIndex].append($("<td></td>"));
-                }
-                newrows[colToRowIndex].append($(this));
-            });
-        });
-        $this.find("tr").remove();
-        $.each(newrows, function(){
-            $this.append(this);
+$(document).ready(function(){
+    $("table").each(function() {
+    var $this = $(this);
+    var newrows = [];
+    $this.find("tr").each(function(rowToColIndex){
+        $(this).find("td, th").each(function(colToRowIndex){
+            if(newrows[colToRowIndex] === undefined) { newrows[colToRowIndex] = $("<tr></tr>"); }
+            while(newrows[colToRowIndex].find("td, th").length < rowToColIndex){
+                newrows[colToRowIndex].append($("<td></td>"));
+            }
+            newrows[colToRowIndex].append($(this));
         });
     });
-
-    return false;
-}
-
-$("a#transposeButton").click(function(){
-    $("table").each(function() {
-        var $this = $(this);
-        var newrows = [];
-        $this.find("tr").each(function(rowToColIndex){
-            $(this).find("td, th").each(function(colToRowIndex){
-                if(newrows[colToRowIndex] === undefined) { newrows[colToRowIndex] = $("<tr></tr>"); }
-                while(newrows[colToRowIndex].find("td, th").length < rowToColIndex){
-                    newrows[colToRowIndex].append($("<td></td>"));
-                }
-                newrows[colToRowIndex].append($(this));
-            });
-        });
-        $this.find("tr").remove();
-        $.each(newrows, function(){
-            $this.append(this);
-        });
+    $this.find("tr").remove();
+    $.each(newrows, function(){
+        $this.append(this);
+    });
     });
 
     return false;
 });
-
-
 </script>
+
 
 {% endblock %}

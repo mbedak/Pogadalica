@@ -1,26 +1,23 @@
-{% extends "main/header1.html" %}
-
 {% block content %}
-
-
-<div class="container">
-    <h1> Week {{broj_kola}} </h1>
-        <table class="table" style="...">
+<div class="container table-responsive">
+        <table class="table">
             <thead>
-            <th><h2>Domacini</h2></th>
-            <th><h2>Rezultat </h2></th>
-            <th><h2>Gosti</h2></th>
+            <th colspan="2"><h2>Domaćini</h2></th>
+            <th></th>
+            <th colspan="2"><h2>Gosti</h2></th>
             <th><h2>@Stadion</h2></th>
             </thead>
             {%for i in tekme %}
             <tr>
+                {% load static %}
                 <td>{{i.domacini}}</td>
-                <td>{{i.rez_doma}} - {{i.rez_gosti}}</td>
+                <td><img style="width:38px; height:38px;" src="{% static 'images/logostrans/' %}{{i.domacini.kratica.strip}}.png" ></td>
+                <td style="font-weight: bolder;">{{i.rez_doma}} - {{i.rez_gosti}}</td>
+                <td><img style="width:38px; height:38px;" src="{% static 'images/logostrans/' %}{{i.gosti.kratica.strip}}.png" ></td>
                 <td>{{i.gosti}}</td>
                 <td>{{i.domacini.stadion}}</td>
             </tr>
             {% endfor %}
         </table>
 </div>
-
 {% endblock %}

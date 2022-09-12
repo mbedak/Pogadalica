@@ -188,8 +188,7 @@ def oklada(request, BK):
     template = loader.get_template('NflWeb/oklada.html')
 
     if OkladaKolo.objects.filter(user_id=request.user.id, broj_kola=BK).exists():
-        messages.error(request, "Vi ste vec upisali okladu za ovo kolo")
-        return redirect('home')
+        return HttpResponse("<h3 style='color: red;'>Vi ste već upisali okladu za ovo kolo</h3>")
     else:
         dict_tekmi = {}
         dict_boji = {}
@@ -454,10 +453,7 @@ def ukupna_tablica(request):
     for el in krajnjalista:
         sorted_by_abcd = sorted(el, key=lambda tup: tup[0])
         nova_lista.append(sorted_by_abcd)
-    lista_kor = []
-    for korisnik in lista_korisnika:
-        lista_kor.append(korisnik.username)
-    lista_kor = sorted(lista_kor)
+    lista_kor = sorted([korisnik.username for korisnik in lista_korisnika])
 
     st = nova_lista
     d = {x[0][0]: sum(list(zip(*x))[1]) for x in zip(*st)}
@@ -473,12 +469,11 @@ def ukupna_tablica(request):
     c_stf.update(c_frt)
     c_stf.update(c_utt)
     c_stf.update(c_nos)
-    print(c_stf)
 
     c_d = Counter(d)
     c_stf.update(c_d)
     uzt =Counter(c_stf)
-    ukupno_za_tablicu = uzt
+    ukupno_za_tablicu = dict(uzt)
     print(ukupno_za_tablicu)
     context = {'sva_kola': sva_kola,
                'lista_bodova': nova_lista,
@@ -500,8 +495,7 @@ def broj_tjednih_bodova(request, BK):
     pocetak_zabrane = datum.startdate - datetime.timedelta(days=3)
     kraj_zabrane = datum.startdate
     if today < kraj_zabrane:
-        messages.info(request, "Nije moguće vidjeti oklade dok traje klađenje")
-        return redirect("home")
+        return HttpResponse("<h3 style='color:red; padding-left: 30px;'>Nije moguće vidjeti oklade dok traje klađenje")
     prave_tekme = Utakmice.objects.filter(kolo=BK)
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=BK)
     tekme_oklada = OkladaUtakmice.objects.filter(oklada_kolo__in=okladena_kola_po_broju_kola)

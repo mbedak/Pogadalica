@@ -1,24 +1,25 @@
-{% extends "main/header1.html" %}
-
 {% block content %}
 
 {% load crispy_forms_tags %}
 
-Današnji datum: {{today}} <br>
-Početak kola: {{pocetak}} <br>
-Kraj kola: {{kraj}}
-
+<div class="m-4 row justify-content-between" style="font-size: 18px;">
+    <div style="font-weight: bold;">
+        Današnji datum: {{today}}
+    </div>
+    <div style="font-weight: bolder; color: green;">
+    Početak kola: {{pocetak}}
+    </div>
+    <div style="font-weight: bolder; color: red;">
+    Kraj kola: {{kraj}}
+    </div>
+</div>
 {% if pocetak > today or kraj < today %}
 
 <form action="{% url 'okladi_se' %}" method="post">
     {% csrf_token %}
-    <center>
-        <h1> Week {{broj_kola}}, Igrač: {{korisnik}}</h1>
-        <input type="hidden" value="{{korisnik}}" name="korisnik">
-        <input type="hidden" value="{{broj_kola}}" name="broj_kola">
-        <input type="number" value="{{broj_TD}}" name="broj_TD" size="2" placeholder="Koliko TD će biti?" required>
-    </center>
-    <div class="container-fluid">
+    <input type="hidden" value="{{korisnik}}" name="korisnik">
+    <input type="hidden" value="{{broj_kola}}" name="broj_kola">
+    <div class="container-fluid d-flex flex-column">
         {% for i in tekme %}
         <table class="table">
 
@@ -40,9 +41,9 @@ Kraj kola: {{kraj}}
                 <td>
                     <select id="pobjednik_{{i.id_utakmica}}" name="pobjednik_{{i.id_utakmica}}" style="width: 180px;"
                             onchange="promjena({{i.domaci_spread}}, {{i.gosti_spread}}, {{i.id_utakmica}}, '{{i.domacini|cut:' '}}', '{{i.gosti|cut:' '}}');">
-                    <option disabled selected value style="display: none"> -- odaberi --</option>
-                    <option value="{{i.domacini.id_ekipa}}">{{i.domacini}}</option>
-                    <option value="{{i.gosti.id_ekipa}}">{{i.gosti}}</option>
+                        <option disabled selected value style="display: none"> -- odaberi --</option>
+                        <option value="{{i.domacini.id_ekipa}}">{{i.domacini}}</option>
+                        <option value="{{i.gosti.id_ekipa}}">{{i.gosti}}</option>
                     </select>
                 </td>
                 <td rowspan="4">
@@ -90,11 +91,17 @@ Kraj kola: {{kraj}}
             {% endfor %}
             {% endfor %}
 
+
         </table>
         {% endfor %}
+        <input class="w-25 align-self-center" type="number" value="{{broj_TD}}" name="broj_TD" size="2"
+               placeholder="Koliko TD će biti?" required>
+
+
+
+    <input type="submit" class="btn btn-primary w-25 align-self-center mt-2" value="Predaj okladu">
     </div>
 
-    <input type="submit" value="Submit">
 </form>
 
 <script type="text/javascript">
@@ -161,6 +168,8 @@ function displayImage(id_tekma, domaci, gosti){
     image.src =link +ekipa+".png";
     console.log(image.src);
 }
+
+
 
 
 
