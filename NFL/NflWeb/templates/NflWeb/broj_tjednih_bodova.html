@@ -136,12 +136,14 @@
                 {% for key,tkm in dict_oklada_po_tekmi.items %}
                 <tr>
                     {% for i in tkm %}
-                    <td width="10%">
-                        {{i.0.kratica}}
+                    <td width="30%">
+                         <img src="{% static 'images/logostrans/' %}{{i.0.kratica.strip}}.png"
+                                             style="width:30px; height:30px;">
                     </td>
-                    <td width="50">
+                    <td width="15%">
                         {% if i.1 == True %}
-                        X2
+                        <img src="{% static 'images/logostrans/X2' %}.png"
+                                             style="width:25px; height:25px;">
                         {% else %}
                         {% endif %}
                     </td>
