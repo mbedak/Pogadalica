@@ -494,10 +494,15 @@ def broj_tjednih_bodova(request, BK):
     datum = Kolo.objects.filter(broj_kola=BK).first()
     pocetak_zabrane = datum.startdate - datetime.timedelta(days=3)
     kraj_zabrane = datum.startdate
+    pogadani_td =[]
     if today < kraj_zabrane:
         return HttpResponse("<h3 style='color:red; padding-left: 30px;'>Nije moguće vidjeti oklade dok traje klađenje")
     prave_tekme = Utakmice.objects.filter(kolo=BK)
     okladena_kola_po_broju_kola = OkladaKolo.objects.filter(broj_kola=BK)
+    for listic in okladena_kola_po_broju_kola:
+        pogodeni_td = listic.broj_td
+        pogadani_td.append(pogodeni_td)
+
     tekme_oklada = OkladaUtakmice.objects.filter(oklada_kolo__in=okladena_kola_po_broju_kola)
     dict_tekme_oklada_po_tekmi = {}
     dict_tekme_oklada_po_tekmi_dupla = {}
@@ -537,6 +542,8 @@ def broj_tjednih_bodova(request, BK):
         'stifler': stifler_ukupno,
         'tvornica_tuge': tvornica_tuge_ukupno,
         'utter_disaster': utter_disaster_ukupno,
+        'kolo_oklade': datum,
+        'pogadan_td': pogadani_td,
         'prave_tekme': list(prave_tekme),
         'kolo_oklada': list(okladena_kola_po_broju_kola),
         'tekme_oklada': list(tekme_oklada),

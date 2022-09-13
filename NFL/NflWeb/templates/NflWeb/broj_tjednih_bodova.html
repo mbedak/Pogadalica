@@ -50,6 +50,10 @@
                 </tr>
                 {%endfor%}
                 <tr>
+                    <td> Stvarni broj polaganja</td>
+                    <td>{{kolo_oklade.broj_td}}</td>
+                </tr>
+                <tr>
                     <td colspan="3">
                         Ukupno bodova od pogodaka
                     </td>
@@ -144,6 +148,13 @@
                     {% endfor %}
                 <tr/>
                 {% endfor %}
+                <tr>
+                    {% for i in pogadan_td %}
+                    <td colspan="2">
+                        {{i}}
+                    </td>
+                    {% endfor %}
+                </tr>
                 <tr>
                     {% for kor,broj_bodova in korisnik_bodovi.items %}
                     <td colspan="2">
