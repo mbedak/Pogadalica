@@ -474,7 +474,7 @@ def ukupna_tablica(request):
     c_stf.update(c_d)
     uzt =Counter(c_stf)
     ukupno_za_tablicu = dict(uzt)
-    print(ukupno_za_tablicu)
+
     context = {'sva_kola': sva_kola,
                'lista_bodova': nova_lista,
                'lista_korisnika': lista_kor,
