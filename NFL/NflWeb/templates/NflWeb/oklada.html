@@ -116,7 +116,7 @@ function promjena(domaci_spread, gosti_spread, id_tekma, domacini, gosti){
 
 
 function pick(domaci_spread, gosti_spread, id_tekma){
-    if(Math.abs(domaci_spread) > 7){
+    if(Math.abs(domaci_spread) >= 7){
         var izabranik = document.getElementById("pobjednik_"+id_tekma).selectedIndex;
         if (izabranik == 2 && gosti_spread < domaci_spread ||
             izabranik == 1 && domaci_spread < gosti_spread){

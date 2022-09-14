@@ -21,6 +21,7 @@ class racunanje_boja:
             self.moze_duplo = True
             self.boja = "#FFD700"
 
+
     def moze_duplo(self):
         return self.moze_duplo
 
@@ -101,7 +102,7 @@ class tjedni_bodovi:
                                 self.tie4 += 0.00001
                                 if abs(tekma.domaci_spread) <= 3:
                                     self.tie3 += 0.0001
-                                if abs(tekma.domaci_spread) > 7:
+                                if abs(tekma.domaci_spread) >= 7:
                                     self.stifler += 1
                         elif tekma.pobjednik != okl_utakmica.pobjednik_utakmica:
                             if okl_utakmica.dvostruko is True:
