@@ -6,11 +6,13 @@
 
 
 
+
+
 </style>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6 table-responsive table-sm  text-white" style="background: lightblue">
+        <div class="col-5 table-sm " style="background: lightblue;">
             <table class="table">
                 <thead>
                 <tr>
@@ -42,7 +44,8 @@
                             style="width:20px; height:20px;"> {{tekma.domacini}}
                     </td>
                     <td>
-                        {{tekma.pobjednik.kratica}}
+                        <img src="{% static 'images/logostrans/' %}{{tekma.pobjednik.kratica.strip}}.png"
+                             style="width:30px; height:30px;">
                     </td>
                     <td>
                         {{tekma.domaci_spread}}
@@ -111,7 +114,7 @@
 
             </table>
         </div>
-        <div class="col-6 table-responsive table-sm">
+        <div class="col-7 table-responsive table-sm">
             <table class="table">
                 <thead>
                 <tr>
@@ -137,13 +140,13 @@
                 <tr>
                     {% for i in tkm %}
                     <td width="30%">
-                         <img src="{% static 'images/logostrans/' %}{{i.0.kratica.strip}}.png"
-                                             style="width:30px; height:30px;">
+                        <img src="{% static 'images/logostrans/' %}{{i.0.kratica.strip}}.png"
+                             style="width:30px; height:30px;">
                     </td>
                     <td width="15%">
                         {% if i.1 == True %}
                         <img src="{% static 'images/logostrans/X2' %}.png"
-                                             style="width:25px; height:25px;">
+                             style="width:25px; height:25px;">
                         {% else %}
                         {% endif %}
                     </td>
