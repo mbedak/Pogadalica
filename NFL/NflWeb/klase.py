@@ -83,6 +83,7 @@ class tjedni_bodovi:
                 self.tie1 += 0.01
 
         for okl_utakmica in okladene_utakmice:
+            self.PT=0
             for tekma in utakmice:
                 if tekma.pobjednik is not None:
                     if prime_end > tekma.datum_vrijeme.time() > prime_start:
