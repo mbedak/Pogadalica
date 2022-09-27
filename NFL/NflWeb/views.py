@@ -91,7 +91,7 @@ def upis_utakmice_formset(request):
         if formset.is_valid():
             formset.save()
             # Do something.
-        return HttpResponse('Utakmice promijenjene!')
+        return redirect('/home/')
     else:
         query = Utakmice.objects.all()
         paginator = Paginator(query, 16)  # Show 16 forms per page
@@ -337,7 +337,7 @@ def ukupna_tablica(request):
                 utakmica_korisnik = OkladaUtakmice.objects.filter(oklada_kolo=kolo_korisnik)
                 pravi_td = kolo.broj_td
                 okladeni_td = kolo_korisnik.broj_td
-                tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, sve_tekme_oklada, )
+                tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, sve_tekme_oklada, pravi_td, okladeni_td)
                 ukupan_zbroj = 0
                 broj_bodova = 0
 
@@ -494,6 +494,7 @@ def broj_tjednih_bodova(request, BK):
     datum = Kolo.objects.filter(broj_kola=BK).first()
     pocetak_zabrane = datum.startdate - datetime.timedelta(days=3)
     kraj_zabrane = datum.startdate
+    pravi_td = datum.broj_td
     pogadani_td =[]
     if today < kraj_zabrane:
         return HttpResponse("<h3 style='color:red; padding-left: 30px;'>Nije moguće vidjeti oklade dok traje klađenje")
@@ -522,9 +523,11 @@ def broj_tjednih_bodova(request, BK):
     utter_disaster_ukupno = {}
     for korisnik in lista_korisnika:
         kolo_korisnik = OkladaKolo.objects.filter(user=korisnik, broj_kola=BK).all()
+        for td in kolo_korisnik:
+            ciljani_td = td.broj_td
 
         utakmica_korisnik = OkladaUtakmice.objects.filter(oklada_kolo__in=kolo_korisnik)
-        tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, tekme_oklada, )
+        tj_bodovi = tjedni_bodovi(prave_tekme, utakmica_korisnik, tekme_oklada,pravi_td, ciljani_td )
         broj_bodova = (tj_bodovi.zbroji_bodove(), tj_bodovi.tko_rano_rani, tj_bodovi.prime_time_flag, tj_bodovi.DP)
         ukupan_zbroj = tj_bodovi.zbroj_bodova_flt
         freight_train = tj_bodovi.freight_train

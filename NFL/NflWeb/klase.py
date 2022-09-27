@@ -31,7 +31,7 @@ class racunanje_boja:
 
 class tjedni_bodovi:
 
-    def __init__(self, utakmice, okladene_utakmice, sve_okladene_utakmice, ):
+    def __init__(self, utakmice, okladene_utakmice, sve_okladene_utakmice, pravi_td, okladeni_td ):
         self.N_utakmica = utakmice.count()
         self.N_pola = self.N_utakmica / 2
         self.N_pola_rd = self.N_pola - 1.5
@@ -44,6 +44,8 @@ class tjedni_bodovi:
         self.utakmice = utakmice
         self.okladene_utakmice = okladene_utakmice
         self.sve_utakmice_oklada = sve_okladene_utakmice
+        self.pravi_td= pravi_td
+        self.okladeni_td = okladeni_td
 
         tekme_u_19 = [tekma for tekma in utakmice if
                       tekma.datum_vrijeme != None and datetime.strftime(tekma.datum_vrijeme, "%H") == "19"]
@@ -59,6 +61,11 @@ class tjedni_bodovi:
         self.tie2 = 0
         self.tie3 = 0
         self.tie4 = 0
+        self.tie5 = 0
+        if self.pravi_td is None or self.okladeni_td is None:
+            self.tie4 = 0
+        else:
+            self.tie4 = abs(self.pravi_td - self.okladeni_td)/1000000
 
         for i in self.utakmice:  # dobavi pobjednike pravih utakmica (ekipe)
             self.prave.append(i.pobjednik)
@@ -92,6 +99,10 @@ class tjedni_bodovi:
                         if tekma.pobjednik == okl_utakmica.pobjednik_utakmica:
                             self.bodovi += 1
                             self.tie2 += 0.001
+                            if tekma.domaci_spread is None :
+                                self.tie3 +=0
+                            elif abs(tekma.domaci_spread) <= 3 :
+                                self.tie3 += 0.0001
 
                             time_tekme = datetime.strftime(tekma.datum_vrijeme, "%H")
                             if time_tekme == "19":
@@ -100,9 +111,7 @@ class tjedni_bodovi:
                                 self.prime_time += 1
                             if okl_utakmica.dvostruko:
                                 self.DP += 1
-                                self.tie4 += 0.00001
-                                if abs(tekma.domaci_spread) <= 3:
-                                    self.tie3 += 0.0001
+                                self.tie5 += 0.000000001
                                 if abs(tekma.domaci_spread) >= 7:
                                     self.stifler += 1
                         elif tekma.pobjednik != okl_utakmica.pobjednik_utakmica:
@@ -145,8 +154,8 @@ class tjedni_bodovi:
             self.zbroj_bodova_sve = 0
         else:
             self.zbroj_bodova_sve = self.bodovi + self.tie1 + self.DP + self.prime_time_flag + self.tko_rano_rani + self.tie2 \
-                                    + self.tie3 + self.tie4
-        self.zbroj_bodova_flt = "%.5f" % self.zbroj_bodova_sve
+                                    + self.tie3 + self.tie4+ self.tie5
+        self.zbroj_bodova_flt = "%.7f" % self.zbroj_bodova_sve
 
     def tko_rano_rani(self):
         return self.tko_rano_rani
