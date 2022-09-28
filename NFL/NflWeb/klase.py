@@ -65,7 +65,8 @@ class tjedni_bodovi:
         if self.pravi_td is None or self.okladeni_td is None:
             self.tie4 = 0
         else:
-            self.tie4 = abs(self.pravi_td - self.okladeni_td)/1000000
+            self.tie4 = abs(self.pravi_td - self.okladeni_td)/100000000
+            print(self.tie4)
 
         for i in self.utakmice:  # dobavi pobjednike pravih utakmica (ekipe)
             self.prave.append(i.pobjednik)
@@ -98,11 +99,11 @@ class tjedni_bodovi:
                     if tekma == okl_utakmica.utakmica:
                         if tekma.pobjednik == okl_utakmica.pobjednik_utakmica:
                             self.bodovi += 1
-                            self.tie2 += 0.001
+                            self.tie2 += 0.0001
                             if tekma.domaci_spread is None :
                                 self.tie3 +=0
                             elif abs(tekma.domaci_spread) <= 3 :
-                                self.tie3 += 0.0001
+                                self.tie3 += 0.000001
 
                             time_tekme = datetime.strftime(tekma.datum_vrijeme, "%H")
                             if time_tekme == "19":
@@ -111,7 +112,7 @@ class tjedni_bodovi:
                                 self.prime_time += 1
                             if okl_utakmica.dvostruko:
                                 self.DP += 1
-                                self.tie5 += 0.000000001
+                                self.tie5 += 0.0000000001
                                 if abs(tekma.domaci_spread) >= 7:
                                     self.stifler += 1
                         elif tekma.pobjednik != okl_utakmica.pobjednik_utakmica:
@@ -154,8 +155,8 @@ class tjedni_bodovi:
             self.zbroj_bodova_sve = 0
         else:
             self.zbroj_bodova_sve = self.bodovi + self.tie1 + self.DP + self.prime_time_flag + self.tko_rano_rani + self.tie2 \
-                                    + self.tie3 + self.tie4+ self.tie5
-        self.zbroj_bodova_flt = "%.7f" % self.zbroj_bodova_sve
+                                    + self.tie3 - self.tie4 + self.tie5
+        self.zbroj_bodova_flt = "%.10f" % self.zbroj_bodova_sve
 
     def tko_rano_rani(self):
         return self.tko_rano_rani
